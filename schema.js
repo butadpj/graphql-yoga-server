@@ -235,9 +235,14 @@ export const schema = createSchema({
       latest_country: () => countries[0],
     },
     Mutation: {
-      addCountry(_, args) {
+      async addCountry(_, args) {
         const newCountry = { code: args.code, name: args.name };
-        countries = [newCountry, ...countries];
+
+        await new Promise((resolve) => {
+          setTimeout(() => {
+            resolve((countries = [newCountry, ...countries]));
+          }, 2000);
+        });
 
         return newCountry;
       },
